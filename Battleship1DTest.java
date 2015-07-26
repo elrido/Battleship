@@ -14,7 +14,7 @@ public class Battleship1DTest {
 			String result = game.bomb(guess);
 			System.out.println(result);
 		} catch (Exception e) {
-			System.out.println("Caught exception: " + e.getMessage());
+			System.err.println("Caught exception: " + e.getMessage());
 		}
 	}
 }
