@@ -1,3 +1,5 @@
+package net.rupf.battleship;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

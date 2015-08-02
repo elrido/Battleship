@@ -1,3 +1,5 @@
+package net.rupf.battleship;
+
 import java.util.ArrayList;
 
 public class Battleship1DTest {

@@ -1,3 +1,5 @@
+package net.rupf.battleship;
+
 import java.io.IOException;
 import java.io.OutputStream;
 

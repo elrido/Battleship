@@ -1,3 +1,5 @@
+package net.rupf.battleship;
+
 import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
@@ -126,7 +128,7 @@ public class BattleshipGUI {
 		background.add(BorderLayout.CENTER, mainPanel);
 
 		// build frame
-		ImageIcon img = new ImageIcon("loongson-club.png");
+		ImageIcon img = new ImageIcon("/images/loongson-club.png");
 		frame.setIconImage(img.getImage());
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().add(background);
