@@ -199,9 +199,9 @@ public class BattleshipGUI {
 	private void end () {
 		System.out.print("You did it! Your fleet sent all " + shipCount + " enemy vessels to the bottom of the sea. It took you " + guesses + " rounds of fire. ");
 		System.out.println();
-		if (guesses < 20) {
+		if (guesses < (shipCount * (size / 2) * 1.5)) {
 			System.out.println("Well done, Admiral!");
-		} else if (guesses < 40) {
+		} else if (guesses < (shipCount * (size / 2) * 2.5)) {
 			System.out.println("Certainly you can improve your targetting before you enter your next battle.");
 		} else {
 			System.out.println("Your fleet just about made it out in one piece. You realize that you still have a lot to learn about the enemies tactics.");

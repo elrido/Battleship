@@ -74,8 +74,8 @@ public class Map {
 			x = axis;
 		}
 		boolean occupied = false;
-		for (int i = Math.max(x-1, 0); i < Math.min(x+1, side); ++i) {
-			for (int j = Math.max(y-1, 0); j < Math.min(y+1, side); ++j) {
+		for (int i = Math.max(x-2, 0); i < Math.min(x+2, side); ++i) {
+			for (int j = Math.max(y-2, 0); j < Math.min(y+2, side); ++j) {
 				if (map[i][j]) {
 					occupied = true;
 				}
