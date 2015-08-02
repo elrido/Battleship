@@ -1,1 +1,1 @@
-Main-Class: net.rupt.battleship.BattleshipGUI
+Main-Class: net.rupf.battleship.BattleshipGUI
