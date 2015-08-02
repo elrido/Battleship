@@ -1,10 +1,7 @@
 import java.util.ArrayList;
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.Label;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.PrintStream;
 
 public class BattleshipGUI {
@@ -12,6 +9,8 @@ public class BattleshipGUI {
 	private JFrame frame = new JFrame("Battleship");
 
 	private JPanel mainPanel;
+	
+	private JTextArea messages;
 	
 	private ArrayList<JCheckBox> checkboxList = new ArrayList<JCheckBox>();
 
@@ -60,10 +59,28 @@ public class BattleshipGUI {
 	}
 
 	public void createGUI() {
+		// create menu bar
+		JMenu menu = new JMenu("Game");
+		menu.setMnemonic(KeyEvent.VK_G);
+		menu.getAccessibleContext().setAccessibleDescription(
+			"Game options"
+		);
+		JMenuItem menuItem = new JMenuItem("Restart", KeyEvent.VK_R);
+		menuItem.getAccessibleContext().setAccessibleDescription(
+			"Restart the game"
+		);
+		menuItem.addActionListener(new RestartListener());
+		menu.add(menuItem);
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.add(menu);
+
 		// create message area
-		JTextArea messages = new JTextArea(10, 20);
+		messages = new JTextArea(10, 20);
+		Font small = new Font("sans", Font.PLAIN, 10);
+		messages.setFont(small);
 		//messages.setEnabled(false);
 		messages.setLineWrap(true);
+		messages.setWrapStyleWord(true);
 		TextAreaOutputStream msgOutputStream = new TextAreaOutputStream(messages);
 		System.setOut(new PrintStream(msgOutputStream));
 		JScrollPane messagePane = new JScrollPane(
@@ -81,11 +98,15 @@ public class BattleshipGUI {
 		BombardmentListener scout = new BombardmentListener();
 		for (int i = 0, max = side * side; i < max; ++i) {
 			if (i == 0) {
-				mainPanel.add(new Label(""));
+				mainPanel.add(new JLabel(""));
 			} else if (i % side == 0) {
-				mainPanel.add(new Label(getLetter((int) i / side)));
+				JLabel l = new JLabel(getLetter((int) i / side), SwingConstants.CENTER);
+				l.setFont(small);
+				mainPanel.add(l);
 			} else if (i < side) {
-				mainPanel.add(new Label(Integer.toString(i)));
+				JLabel l = new JLabel(Integer.toString(i), SwingConstants.CENTER);
+				l.setFont(small);
+				mainPanel.add(l);
 			} else {
 				JCheckBox c = new JCheckBox();
 				c.setSelected(false);
@@ -106,8 +127,9 @@ public class BattleshipGUI {
 
 		// build frame
 		ImageIcon img = new ImageIcon("loongson-club.png");
-		frame.getContentPane().add(background);
 		frame.setIconImage(img.getImage());
+		frame.setJMenuBar(menuBar);
+		frame.getContentPane().add(background);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(50, 50, 300, 300);
 		frame.pack();
@@ -117,13 +139,11 @@ public class BattleshipGUI {
 	}
 
 	public void init () {
-		System.out.println();
 		System.out.println("Welcome to BATTLESHIP");
-		System.out.println("=====================");
 		System.out.println();
-		System.out.println("It is the time of the second world war. You are an admiral in your countries naval forces. Your battlegroup was sent to new coordinates and your scouts just reported you sightings of " + shipCount + " enemy ships. Now is the moment you have trained your men for, during these last months. You call your radio operator. Eagerly he awaits your command. Are you ready to order on which coordinates your fleets captains should concentrate their bombardment?");
+		System.out.println("It's the time of the second world war. You are an admiral in your countries naval forces. Your battlegroup was sent to new coordinates and your scouts just reported sightings of " + shipCount + " enemy ships. This is the moment you have trained your men for, in these last months.");
 		System.out.println();
-		System.out.println("The map shows you the area the enemy ships are suspected to be in. Your battlefield is roughly a square area of " + size + " nautical miles. Your navigator has gridded it for you on the map to make it easy to select an area for bombardment.");
+		System.out.println("The map shows you the gridded area the enemy ships are suspected to be in. Your battlefield is roughly a square area of " + size + " nautical miles. You turn to your radio operator. Eagerly he awaits your command.");
 		System.out.println();
 		System.out.println("Radio operator: Sir, which target area should we bombard?");
 		System.out.println();
@@ -187,8 +207,6 @@ public class BattleshipGUI {
 			System.out.println("Your fleet just about made it out in one piece. You realize that you still have a lot to learn about the enemies tactics.");
 		}
 		System.out.println();
-		System.out.println("=========");
-		System.out.println();
 		System.out.println("GAME OVER");
 	}
 
@@ -199,6 +217,20 @@ public class BattleshipGUI {
 			i /= 26;
 		}
 		return result;
+	}
+	
+	class RestartListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			for (JCheckBox c : checkboxList) {
+				if (c.isSelected()) {
+					c.setSelected(false);
+				}
+				c.setEnabled(true);
+			}
+			guesses = 0;
+			messages.setText("");
+			init();
+		}
 	}
 	
 	class BombardmentListener implements ItemListener {
