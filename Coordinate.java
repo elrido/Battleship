@@ -16,7 +16,16 @@ public class Coordinate {
 		this.size = size;
 	}
 
+	public Coordinate(int X, int Y, int size) {
+		this.X = X + 1;
+		this.Y = Y + 1;
+		this.size = size;
+	}
+
 	public boolean isValid() {
+		if (X > 0 && X <= size && Y > 0 && Y <= size) {
+			return true;
+		}
 		try {
 			Pattern p = Pattern.compile("([a-zA-Z]+)([0-9]+)");
 			Matcher m = p.matcher(position);
